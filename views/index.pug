@@ -1,0 +1,6 @@
+html
+    head 
+        title= "Bots"
+    body
+        each val, index in instances
+            .instance <div><h1>!{val.username}</h1> <button type="button" onclick='fetch("start/!{index}", {method: "POST"})'>Start</button> <button type="button" onclick='fetch("stop/!{index}", {method: "POST"})'>Stop</button></div>
