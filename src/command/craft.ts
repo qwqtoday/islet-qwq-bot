@@ -14,7 +14,7 @@ const autoCraft = async () => {
         for (let itemName of autoCraftItems) {
             let item = getItem(itemName)
             let recipes = bot.recipesFor(item.id, null, null, autoCraftCraftingTable)
-            let recipe = recipes.at(0)
+            let recipe = recipes.find((recipe) => recipe.result.id == item.id)
             if (recipe === undefined) continue
             try {
                 await bot.craft(recipe, 1728, autoCraftCraftingTable)
