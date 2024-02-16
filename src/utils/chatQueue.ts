@@ -12,7 +12,6 @@ async function processChatMessages() {
         let messages = queuingChatMesssages.shift()
         if (messages === undefined) return
         for (let message of messages) {
-            console.log(message)
             bot.chat(message)
             await sleep(300)
         }
