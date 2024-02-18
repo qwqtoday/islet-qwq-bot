@@ -64,6 +64,10 @@ async function setupBot() {
         } catch (e) {}
     })
     
+    bot.on("error", (err) => {
+        console.log(err)
+    })
+
     bot.on("end", async (reason) => {
         await setupBot()
     })

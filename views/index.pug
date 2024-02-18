@@ -4,6 +4,6 @@ html
     body
         each val, index in instances
             div
-                h1= !{val.username}
+                h1= val.username
                 button(type="button" onclick='fetch("start/!{index}", {method: "POST"}).then(response => response.text()).then(text => alert(text))')= "Start"
                 button(type="button" onclick='fetch("stop/!{index}", {method: "POST"}).then(response => response.text()).then(text => alert(text))')= "Stop"
