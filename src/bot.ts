@@ -66,10 +66,11 @@ async function setupBot() {
     
     bot.on("error", (err) => {
         console.log(err)
+        bot.end()
     })
 
-    bot.on("end", async (reason) => {
-        await setupBot()
+    bot.on("end", (reason) => {
+        setupBot()
     })
 }
 setupBot()
