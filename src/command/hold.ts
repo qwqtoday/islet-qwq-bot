@@ -11,7 +11,7 @@ const command: Command = {
             bot.chat(`/w ${sender} <red>這個物品不存在`)
             return
         }
-        let item = bot.inventory.findInventoryItem(itemData.id, null, true)
+        let item = bot.inventory.findInventoryItem(itemData.id, null, false)
         if (item === null || item === undefined) {
             bot.chat(`/w ${sender} <red>背包內不存在這個物品`)
             return

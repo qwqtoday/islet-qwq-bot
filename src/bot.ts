@@ -23,24 +23,20 @@ fs.readdirSync("./dist/command/").forEach(async (command) => {
 
 export let bot: Bot
 async function setupBot() {
-    try {
-        bot = createBot({
-            host: "play.molean.com",
-            fakeHost: "play.molean.com",
-            port: 25565,
-            username: `${instanceConfig.username}`,
-            auth: "microsoft",
-            viewDistance: instanceConfig.view_distance,
-            profilesFolder: "./cache",
-            onMsaCode: (data) => {
-                console.log(
-                    `To sign in the account ${instanceConfig.username}, use a web browser to open the page https://www.microsoft.com/link and use the code ${data.user_code} or visit http://microsoft.com/link?otc=${data.user_code}`
-                )
-            }
-        })
-    } catch {
-        bot.end()
-    }
+    bot = createBot({
+        host: "play.molean.com",
+        fakeHost: "play.molean.com",
+        port: 25565,
+        username: `${instanceConfig.username}`,
+        auth: "microsoft",
+        viewDistance: instanceConfig.view_distance,
+        profilesFolder: "./cache",
+        onMsaCode: (data) => {
+            console.log(
+                `To sign in the account ${instanceConfig.username}, use a web browser to open the page https://www.microsoft.com/link and use the code ${data.user_code} or visit http://microsoft.com/link?otc=${data.user_code}`
+            )
+        }
+    })
     bot.loadPlugin(pathfinder)
     
     bot.on("chat", async (sender, rawMessage) => {
