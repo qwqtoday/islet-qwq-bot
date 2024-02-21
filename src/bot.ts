@@ -11,7 +11,7 @@ const args = process.argv.slice(2)
 const instanceId = parseInt(args[0])
 const instanceConfig = Config.getBotInstanceConfig(instanceId)
 
-export let bot: Bot
+
 
 let commands: { [name: string]: Command } = {}
 fs.readdirSync("./dist/command/").forEach(async (command) => {
@@ -21,22 +21,26 @@ fs.readdirSync("./dist/command/").forEach(async (command) => {
     }
 })
 
+export let bot: Bot
 async function setupBot() {
-    bot = createBot({
-        host: "play.molean.com",
-        fakeHost: "play.molean.com",
-        port: 25565,
-        username: `${instanceConfig.username}`,
-        auth: "microsoft",
-        viewDistance: instanceConfig.view_distance,
-        profilesFolder: "./cache",
-        onMsaCode: (data) => {
-            console.log(
-                `To sign in the account ${instanceConfig.username}, use a web browser to open the page https://www.microsoft.com/link and use the code ${data.user_code} or visit http://microsoft.com/link?otc=${data.user_code}`
-            )
-        }
-    })
-    bot.registry = MinecraftData("1.20.2")
+    try {
+        bot = createBot({
+            host: "play.molean.com",
+            fakeHost: "play.molean.com",
+            port: 25565,
+            username: `${instanceConfig.username}`,
+            auth: "microsoft",
+            viewDistance: instanceConfig.view_distance,
+            profilesFolder: "./cache",
+            onMsaCode: (data) => {
+                console.log(
+                    `To sign in the account ${instanceConfig.username}, use a web browser to open the page https://www.microsoft.com/link and use the code ${data.user_code} or visit http://microsoft.com/link?otc=${data.user_code}`
+                )
+            }
+        })
+    } catch {
+        bot.end()
+    }
     bot.loadPlugin(pathfinder)
     
     bot.on("chat", async (sender, rawMessage) => {
@@ -58,7 +62,7 @@ async function setupBot() {
         }
         try {
             command.execute(bot, sender, args)
-        } catch (e) {}
+        } catch {}
     })
     
     bot.on("error", (err) => {
@@ -70,4 +74,10 @@ async function setupBot() {
         setupBot()
     })
 }
+
+process.on('unhandledRejection', function(err, promise) {
+    console.log(err)
+    bot.end()
+});
+
 setupBot()
