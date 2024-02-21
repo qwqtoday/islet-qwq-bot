@@ -1,6 +1,5 @@
 import { bot } from "../bot";
 import { Command } from "../types";
-import chatQueue from "../utils/chatQueue";
 import { countInventoryItems } from "../utils/inventory";
 import { getItem } from "../utils/items";
 import { Recipe } from "prismarine-recipe"
@@ -26,11 +25,11 @@ const autoCraft = async () => {
             }
         }
     } catch {} finally {
-        setTimeout(autoCraft, 5000)
+        setTimeout(autoCraft, 1500)
     }
 }
 
-setTimeout(autoCraft, 5000)
+setTimeout(autoCraft, 1500)
 const command: Command = {
     name: "craft",
     usage: "Usage: craft",
@@ -40,7 +39,7 @@ const command: Command = {
             maxDistance: 3
         })
         if (craftingTable === null) {
-            chatQueue([`/w ${sender} There are no crafting tables near you.`])
+            bot.chat(`/w ${sender} There are no crafting tables near you.`)
             return
         }
         if (args[0] === "auto") {
@@ -76,4 +75,4 @@ const command: Command = {
     }
 }
 
-export default command
+export = command

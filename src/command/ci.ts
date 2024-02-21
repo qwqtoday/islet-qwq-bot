@@ -1,5 +1,4 @@
 import { Command } from "../types";
-import chatQueue from "../utils/chatQueue";
 import { getItem } from "../utils/items";
 import { countInventoryItems } from "../utils/inventory";
 import { Window } from 'prismarine-windows'
@@ -18,9 +17,7 @@ const ciAutoPut = () => {
                 }
             }
             if (doPut) {
-                chatQueue([
-                    `/ci put`
-                ])
+                bot.chat(`/ci put`)
                 const listener = async (window: Window<Chest>) => {
                     try {
                         let items = bot.inventory.items()
@@ -71,41 +68,29 @@ const command: Command = {
             let quantity = parseInt(args[2])
             let item = getItem(itemName)
             if (item === undefined) {
-                chatQueue([
-                    `/w ${sender} <red>這個物品不存在`
-                ])
+                bot.chat(`/w ${sender} <red>這個物品不存在`)
                 return
             }
-            chatQueue([
-                `/ci get ${item.name} ${quantity}`,
-                `/w ${sender} <aqua>已嘗試取出${quantity}個${item.name}`
-            ])
+            bot.chat(`/ci get ${item.name} ${quantity}`)
+            bot.chat(`/w ${sender} <aqua>已嘗試取出${quantity}個${item.name}`)
         } else if (subCommand == "put") {
             let itemName = args[1]
             let quantity = parseInt(args[2])
             let item = getItem(itemName) 
             if (item === undefined){
-                chatQueue([
-                    `/w ${sender} <red>這個物品不存在`
-                ])
+                bot.chat(`/w ${sender} <red>這個物品不存在`)
                 return
             }
             let itemsCount = countInventoryItems()
             let count = itemsCount[item.name]
             if (count === undefined) {
-                chatQueue([
-                    `/w ${sender} <red>背包內不存在這個物品`
-                ])
+                bot.chat(`/w ${sender} <red>背包內不存在這個物品`)
                 return
             } else if (quantity > count) {
-                chatQueue([
-                    `/w ${sender} <red>數量高於背包內物品的數量`
-                ])
+                bot.chat(`/w ${sender} <red>數量高於背包內物品的數量`)
                 return
             }
-            chatQueue([
-                `/ci put`
-            ])
+            bot.chat(`/ci put`)
 
             let listener = async (window: Window<Chest>) => {
                 try {
@@ -121,9 +106,7 @@ const command: Command = {
                             destEnd: 53
                         })
                         bot.closeWindow(window)
-                        chatQueue([
-                            `/w ${sender} 成功將${quantity}個${item.name}上傳到雲倉`
-                        ])
+                        bot.chat(`/w ${sender} 成功將${quantity}個${item.name}上傳到雲倉`)
                     }
                 } catch {} finally {
                         bot.removeListener("windowOpen", listener)
@@ -143,4 +126,4 @@ const command: Command = {
 }
 
 
-export default command
+export = command

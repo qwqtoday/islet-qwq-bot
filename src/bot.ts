@@ -4,7 +4,6 @@ import * as fs from 'fs';
 import { Bot, createBot } from "mineflayer";
 import { pathfinder, Movements } from 'mineflayer-pathfinder'
 import { Command } from './types';
-import chatQueue from './utils/chatQueue';
 import MinecraftData = require('minecraft-data');
 
 
@@ -17,7 +16,7 @@ export let bot: Bot
 let commands: { [name: string]: Command } = {}
 fs.readdirSync("./dist/command/").forEach(async (command) => {
     if (command.endsWith(".js")) {
-        let cmd: Command = (await import(`./command/${command.slice(0, -3)}`)).default
+        let cmd: Command = await import(`./command/${command.slice(0, -3)}`)
         commands[cmd.name] = cmd
     }
 })
@@ -54,9 +53,7 @@ async function setupBot() {
         console.log(`${sender} executing command ${commandName} with args ${args}`)
         let command = commands[commandName]
         if (command === undefined) {
-            chatQueue([
-                `/w ${sender} 無法找到這個命令`
-            ])
+            bot.chat(`/w ${sender} 無法找到這個命令`)
             return
         }
         try {
