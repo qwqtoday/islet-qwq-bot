@@ -62,6 +62,11 @@ async function setupBot() {
         } catch {}
     })
     
+    bot.on('kicked', (reason) => {
+        console.log(`Bot ${BOT_USERNAME} was kicked for ${reason}`)
+        bot.end(reason)
+    })
+
     bot.on("error", (err) => {
         console.log(err)
         bot.end()
