@@ -11,7 +11,8 @@ const args = process.argv.slice(2)
 const instanceId = parseInt(args[0])
 const instanceConfig = Config.getBotInstanceConfig(instanceId)
 
-
+const BOT_USERNAME = instanceConfig.username
+const BOT_VIEWDISTANCE = instanceConfig.view_distance
 
 let commands: { [name: string]: Command } = {}
 fs.readdirSync("./dist/command/").forEach(async (command) => {
@@ -27,13 +28,13 @@ async function setupBot() {
         host: "play.molean.com",
         fakeHost: "play.molean.com",
         port: 25565,
-        username: `${instanceConfig.username}`,
+        username: BOT_USERNAME,
         auth: "microsoft",
-        viewDistance: instanceConfig.view_distance,
+        viewDistance: BOT_VIEWDISTANCE,
         profilesFolder: "./cache",
         onMsaCode: (data) => {
             console.log(
-                `To sign in the account ${instanceConfig.username}, use a web browser to open the page https://www.microsoft.com/link and use the code ${data.user_code} or visit http://microsoft.com/link?otc=${data.user_code}`
+                `To sign in the account ${BOT_USERNAME}, use a web browser to open the page https://www.microsoft.com/link and use the code ${data.user_code} or visit http://microsoft.com/link?otc=${data.user_code}`
             )
         }
     })
