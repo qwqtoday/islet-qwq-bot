@@ -8,6 +8,7 @@ export interface BotInstanceConfig {
 
 export interface Config {
     allowed_users: string[]
+    panel_port: number
     bot_instances: BotInstanceConfig[]
 }
 

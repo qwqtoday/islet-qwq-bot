@@ -1,5 +1,6 @@
 {
     "allowed_users": ["qwqtoday"],
+    "panel_port": 3000,
     "bot_instances": [
         {
             "username": "abays",
