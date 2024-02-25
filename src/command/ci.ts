@@ -1,4 +1,4 @@
-import { ciPutTaskGenerator } from "../tasks/ciAutoPut";
+import { ciPutTaskGenerator } from "../tasks/ciPut";
 import { Command } from "../types";
 
 
@@ -36,6 +36,9 @@ const command: Command = {
             bot.task.startInterval("ciPutTask", putTask, 1500)
         }
         else if (action == "interval-get") {}
+        else if (action == "stop") {
+            bot.task.stop("ciPutTask")
+        }
     }
 }
 

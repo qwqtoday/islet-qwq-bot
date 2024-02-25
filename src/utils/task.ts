@@ -52,6 +52,7 @@ export function loadTaskPlugin(bot: Bot) {
             if (taskEnder === undefined) {
                 throw new Error("Task is not running.")
             }
+            taskEnder()
         },
         isRunning: (name) => {
             return tasks.has(name)
