@@ -4,6 +4,7 @@ export interface BotInstanceConfig {
     username: string
     max_retries: number | boolean
     view_distance: number
+    defaultAutoCIPut: string[]
 }
 
 export interface Config {
@@ -12,20 +13,14 @@ export interface Config {
     bot_instances: BotInstanceConfig[]
 }
 
-let config_cache: Config
+export let config: Config
 
-export function getConfig(): Config {
-    if (config_cache !== undefined) {
-        return config_cache
-    }
+export function loadConfig() {
     let buffer = fs.readFileSync("./config.json")
     let content = buffer.toString()
-    let config: Config = JSON.parse(content)
-    config_cache = config
-    return config
+    config = JSON.parse(content)
 }
 
 export function getBotInstanceConfig(id: number): BotInstanceConfig {
-    let config = getConfig()
     return config.bot_instances[id]
 }

@@ -7,17 +7,17 @@ if (!fs.existsSync("./cache")) {
     fs.mkdirSync("./cache")
 }
 
-const config = Config.getConfig()
+Config.loadConfig()
 
 let botInstances: child_process.ChildProcess[] = []
-botInstances.length = config.bot_instances.length
+botInstances.length = Config.config.bot_instances.length
 
 function startInstance(id: number) {
     let args = [ `${id}` ]
     let child = child_process.fork("./dist/bot.js", args)
     botInstances[id] = child
 }
-for (let i in config.bot_instances) {
+for (let i in Config.config.bot_instances) {
     let id = parseInt(i)
     startInstance(id)
 }
@@ -26,7 +26,7 @@ const app = express()
 app.set('view engine', 'pug')
 
 app.get("/", (req, res) => {
-    res.render("index", {instances: config.bot_instances})
+    res.render("index", {instances: Config.config.bot_instances})
 })
 app.post("/start/:id", (req, res) => {
     let id = parseInt(req.params.id)
@@ -51,4 +51,4 @@ app.post("/stop/:id", (req, res) => {
     }
 })
 
-app.listen(config.panel_port)
+app.listen(Config.config.panel_port)

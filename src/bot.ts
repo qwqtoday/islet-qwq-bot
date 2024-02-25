@@ -5,8 +5,9 @@ import { Bot, createBot } from "mineflayer";
 import { pathfinder, Movements } from 'mineflayer-pathfinder'
 import { Command } from './types';
 import MinecraftData = require('minecraft-data');
+import { loadTaskPlugin } from './utils/task';
 
-
+Config.loadConfig()
 const args = process.argv.slice(2)
 const instanceId = parseInt(args[0])
 const instanceConfig = Config.getBotInstanceConfig(instanceId)
@@ -25,8 +26,8 @@ fs.readdirSync("./dist/command/").forEach(async (command) => {
 export let bot: Bot
 async function setupBot() {
     bot = createBot({
-        host: "temp.molean.com",
-        fakeHost: "temp.molean.com",
+        host: "171.107.90.237",
+        fakeHost: "play.molean.com",
         port: 25565,
         username: BOT_USERNAME,
         auth: "microsoft",
@@ -47,7 +48,6 @@ async function setupBot() {
     bot.on('kicked', (reason) => {
         console.log(`Bot ${BOT_USERNAME} was kicked for ${reason}`)
         bot.end(reason)
-        setupBot()
     })
 
     bot.on("end", (reason) => {
@@ -55,7 +55,8 @@ async function setupBot() {
     })
 
     bot.loadPlugin(pathfinder)
-    
+    bot.loadPlugin(loadTaskPlugin)
+
     bot.on("chat", async (sender, rawMessage) => {
         // Checks if the sender is verified, if not then return 
         if (!verifyByUsername(sender)) return
