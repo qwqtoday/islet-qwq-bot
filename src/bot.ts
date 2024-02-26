@@ -6,6 +6,7 @@ import { pathfinder, Movements } from 'mineflayer-pathfinder'
 import { Command } from './types';
 import MinecraftData = require('minecraft-data');
 import { loadTaskPlugin } from './utils/task';
+import { sleep } from './utils/sleep';
 
 Config.loadConfig()
 const args = process.argv.slice(2)
@@ -42,16 +43,17 @@ async function setupBot() {
     bot.on("error", (err) => {
         console.log(err)
         bot.end()
-        setupBot()
+        sleep(30000).then(setupBot)
     })
 
     bot.on('kicked', (reason) => {
         console.log(`Bot ${BOT_USERNAME} was kicked for ${reason}`)
         bot.end(reason)
+        sleep(30000).then(setupBot)
     })
 
     bot.on("end", (reason) => {
-        setupBot()
+        sleep(30000).then(setupBot)
     })
 
     bot.loadPlugin(pathfinder)
