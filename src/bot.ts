@@ -43,17 +43,17 @@ async function setupBot() {
     bot.on("error", (err) => {
         console.log(err)
         bot.end()
-        sleep(30000).then(setupBot)
+        setTimeout(setupBot, 30000)
     })
 
     bot.on('kicked', (reason) => {
         console.log(`Bot ${BOT_USERNAME} was kicked for ${reason}`)
         bot.end(reason)
-        sleep(30000).then(setupBot)
+        setTimeout(setupBot, 30000)
     })
 
     bot.on("end", (reason) => {
-        sleep(30000).then(setupBot)
+        setTimeout(setupBot, 30000)
     })
 
     bot.loadPlugin(pathfinder)
