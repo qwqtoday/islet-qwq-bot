@@ -40,8 +40,9 @@ async function setupBot() {
             )
         }
     })
-    
+
     bot.on("end", (reason) => {
+        console.log(`Restarting bot ${BOT_USERNAME}`)
         setTimeout(setupBot, 5000)
     })
 
