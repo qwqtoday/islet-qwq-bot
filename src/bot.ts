@@ -27,7 +27,7 @@ fs.readdirSync("./dist/command/").forEach(async (command) => {
 export let bot: Bot
 async function setupBot() {
     bot = createBot({
-        host: "171.107.90.237",
+        host: "play.molean.com",
         fakeHost: "play.molean.com",
         port: 25565,
         username: BOT_USERNAME,
